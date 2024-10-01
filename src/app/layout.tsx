@@ -5,7 +5,7 @@ import { type Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Conformant Ai",
-  description: "Conformant Ai",
+  description: "Upload a document and get an AI review",
   // icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

@@ -8,6 +8,8 @@ import {
   serial,
   timestamp,
   varchar,
+  integer,
+  text
 } from "drizzle-orm/pg-core";
 
 /**
@@ -18,19 +20,20 @@ import {
  */
 export const createTable = pgTableCreator((name) => `conformant-ai_${name}`);
 
-export const posts = createTable(
-  "post",
+export const documents = createTable(
+  "document",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    fileName: varchar("file_name", { length: 256 }).notNull(),
+    fileSize: integer("file_size").notNull(),
+    mimeType: varchar("mime_type", { length: 100 }).notNull(),
+    filePath: varchar("file_path", { length: 512 }).notNull(),
+    content: text("content").notNull(),
+    aiAnalysis: text("ai_analysis"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date()
-    ),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .$onUpdate(() => new Date()),
+  }
 );
